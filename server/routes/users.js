@@ -52,6 +52,8 @@ router.post('/login', (req, res) => {
 
                 // token creation
                 jwt.sign(payload, privateKey, { expiresIn: 30 }, (err, token) => {
+                    if (err) throw err
+                    
                     res.status(200).json({
                         success: true,
                         token: token
