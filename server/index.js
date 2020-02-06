@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 // routes
-app.use('/api', users)
+app.use('/api/users', users)
 
 // db connection
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true } , () => console.log(`DB connection established`))
