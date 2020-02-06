@@ -47,7 +47,7 @@ router.post('/login', (req, res) => {
             if (isMatch) {
                 const payload = {
                     id: user.id,
-                    name: user.username
+                    username: user.username
                 }
 
                 // token creation

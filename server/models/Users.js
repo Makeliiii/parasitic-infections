@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const bcrypt = require('bcrypt')
-const SALT_WORK_FACTOR = 10
+const saltyRoundy = 10
 
-
+// user schema
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -27,7 +27,7 @@ UserSchema.pre('save', function(next) {
     let user = this
 
     // salt gen
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    bcrypt.genSalt(saltyRoundy, function(err, salt) {
         if (err) return next(err)
 
         // hash pass with salt
