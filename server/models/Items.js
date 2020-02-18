@@ -14,7 +14,7 @@ const ItemSchema = new Schema({
         type: String,
         required: true
     },
-    location: {
+    location: [{
         country: {
             type: String,
             required: true
@@ -23,12 +23,12 @@ const ItemSchema = new Schema({
             type: String,
             required: true
         }
-    },
+    }],
     img: {
         type: Array,
         required: true
     },
-    price: {
+    price: [{
         euro: {
             type: String,
             required: true
@@ -37,7 +37,7 @@ const ItemSchema = new Schema({
             type: String,
             required: true
         }
-    },
+    }],
     date: {
         type: Date,
         default: Date.now()

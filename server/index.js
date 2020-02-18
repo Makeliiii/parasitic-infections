@@ -6,6 +6,7 @@ const port = 3000
 
 // import routes
 const users = require('./routes/users')
+const items = require('./routes/items')
 
 // db uri
 require('dotenv').config()
@@ -20,6 +21,7 @@ app.use(cors())
 
 // routes
 app.use('/api/users', users)
+app.use('/api/items', items)
 
 // db connection
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true } , () => console.log(`DB connection established`))
