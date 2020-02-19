@@ -8,7 +8,8 @@ require('../config/passport')(passport)
 // item model
 const Item = require('../models/Items')
 
-// post a new item
+// @ROUTE POST /api/items/add
+// @DESC add an item to the database
 router.post('/add', passport.authenticate('jwt', { session: false }), (req, res) => {
     const {
         title,
@@ -19,6 +20,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
         deliveryType,
     } = req.body
 
+    // item object
     const newItem = new Item({
         title: title,
         description: description,
@@ -30,6 +32,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
         sellerInfo: req.user._id
     })
 
+    // save the item object to db
     newItem.save()
         .then(item => res.status(200).json({
             item,
@@ -39,9 +42,12 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
         .catch(err => console.log(err))
 })
 
+// @ROUTE PUT /api/items/add-image/:id
+// @DESC add the images to the desired item based on item id
 router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt', { session: false }), (req, res) => {
     const images = req.files
 
+    // rename each image to its' original name
     images.forEach(img => {
         fs.rename(img.path, `./uploads/${img.originalname}`, (err) => {
             if (err) throw err
@@ -49,7 +55,9 @@ router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt'
         })
     })
 
+    // find the item by id and user id
     Item.findByIdAndUpdate({ _id: req.params.id, sellerInfo: req.user._id }).then(item => {
+        // if no image is found
         if (!item) {
             return res.status(404).json({
                 status: 'No such item or you\'re not authenticated to edit the item',
@@ -57,8 +65,10 @@ router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt'
             })
         }
 
+        // item.img is an array so just save images into it
         item.img = images
 
+        // save the modified item into db
         item.save()
             .then(item => res.status(200).json({
                 item,
@@ -69,9 +79,12 @@ router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt'
     })
 })
 
-// delete item by id
+// @ROUTE DELETE /api/items/delete/:id
+// @DESC delete an item based on its' id
 router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // find the item by id and user id
     Item.findOneAndDelete({ _id: req.params.id, sellerInfo: req.user._id }).then(doc => {
+        // error handling
         if (!doc) {
             return res.status(404).json({
                 status: 'No such item or you\'re not authenticated to delete the item',
@@ -79,6 +92,7 @@ router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), (
             })
         }
 
+        // return this object if deletion is successful
         return res.status(200).json({
             status: 'Deletion succesful',
             success: true
