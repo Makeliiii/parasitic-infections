@@ -32,4 +32,20 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
         .catch(err => console.log(err))
 })
 
+router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Item.findOneAndDelete({ _id: req.params.id, sellerInfo: req.user._id }).then(doc => {
+        if (!doc) {
+            return res.status(404).json({
+                status: 'No such item',
+                success: false
+            })
+        }
+
+        return res.status(200).json({
+            status: 'Deletion succesful',
+            success: true
+        })
+    })
+})
+
 module.exports = router
