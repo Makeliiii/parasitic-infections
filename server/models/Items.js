@@ -14,7 +14,7 @@ const ItemSchema = new Schema({
         type: String,
         required: true
     },
-    location: [{
+    location: {
         country: {
             type: String,
             required: true
@@ -23,10 +23,10 @@ const ItemSchema = new Schema({
             type: String,
             required: true
         }
-    }],
+    },
     img: {
         type: Array,
-        required: true
+        required: false
     },
     price: {
         type: mongoose.Types.Decimal128,
