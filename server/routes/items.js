@@ -20,7 +20,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
         deliveryType,
     } = req.body
 
-    // item object
+    // new item object
     const newItem = new Item({
         title: title,
         description: description,
@@ -95,6 +95,28 @@ router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), (
         // return this object if deletion is successful
         return res.status(200).json({
             status: 'Deletion succesful',
+            success: true
+        })
+    })
+})
+
+// @ROUTE GET /api/items
+// @DESC get all items
+router.get('/get', (req, res) => {
+    // find all items
+    Item.find((err, items) => {
+        if (err) {
+            console.log(err)
+            return res.status(404).json({
+                status: 'Items not found',
+                success: false
+            })
+        }
+
+        // return all items
+        return res.status(200).json({
+            items,
+            status: 'Items found',
             success: true
         })
     })
