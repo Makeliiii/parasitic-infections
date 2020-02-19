@@ -5,6 +5,7 @@ require('../config/passport')(passport)
 // item model
 const Item = require('../models/Items')
 
+// post a new item
 router.post('/add', passport.authenticate('jwt', { session: false }), (req, res) => {
     const {
         title,
@@ -32,11 +33,12 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
         .catch(err => console.log(err))
 })
 
+// delete item by id
 router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     Item.findOneAndDelete({ _id: req.params.id, sellerInfo: req.user._id }).then(doc => {
         if (!doc) {
             return res.status(404).json({
-                status: 'No such item',
+                status: 'No such item or you\'re not authenticated to delete the item',
                 success: false
             })
         }

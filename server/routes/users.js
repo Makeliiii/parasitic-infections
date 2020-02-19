@@ -57,7 +57,7 @@ router.post('/login', (req, res) => {
                 }
 
                 // token creation
-                jwt.sign(payload, privateKey, { expiresIn: 120 }, (err, token) => {
+                jwt.sign(payload, privateKey, { expiresIn: 120 /* DO NOT FORGET TO CHANGE */ }, (err, token) => {
                     if (err) throw err
                     
                     res.status(200).json({
