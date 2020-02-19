@@ -28,16 +28,10 @@ const ItemSchema = new Schema({
         type: Array,
         required: true
     },
-    price: [{
-        euro: {
-            type: String,
-            required: true
-        },
-        cents: {
-            type: String,
-            required: true
-        }
-    }],
+    price: {
+        type: mongoose.Types.Decimal128,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now()
