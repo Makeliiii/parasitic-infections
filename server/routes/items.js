@@ -56,8 +56,8 @@ router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt'
     })
 
     // find the item by id and user id
-    Item.findByIdAndUpdate({ _id: req.params.id, sellerInfo: req.user._id }).then(item => {
-        // if no image is found
+    Item.findOne({ _id: req.params.id, sellerInfo: req.user._id }).then(item => {
+        // if no item is found
         if (!item) {
             return res.status(404).json({
                 status: 'No such item or you\'re not authenticated to edit the item',
@@ -76,6 +76,52 @@ router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt'
                 success: true
             }))
             .catch(err => console.log(err))
+    })
+})
+
+// @ROUTE PUT /api/items/edit/:id
+// @DESC edit the desired item
+router.put('/edit/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const {
+        title,
+        description,
+        category,
+        location,
+        price,
+        deliveryType,
+    } = req.body
+
+    Item.findOne({ _id: req.params.id, sellerInfo: req.user._id  }).then(item => {
+        // if no item is found
+        if (!item) {
+            return res.status(404).json({
+                status: 'No such item or you\'re not authenticated to edit the item',
+                success: false
+            })
+        }
+
+        // update the item object
+        item.title = title
+        item.description = description
+        item.category = category
+        item.location = location
+        item.price = price
+        item.deliveryType = deliveryType
+
+        // save the modified item into db
+        item.save()
+            .then(item => res.status(200).json({
+                item,
+                status: 'Item updated successfully',
+                success: true
+            }))
+            .catch(err => {
+                console.log(err)
+                res.status(400).json({
+                    status: 'Some fields are empty',
+                    success: false
+                })
+            })
     })
 })
 
