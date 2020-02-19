@@ -23,6 +23,9 @@ app.use(cors())
 app.use('/api/users', users)
 app.use('/api/items', items)
 
+// serve our images
+app.use(express.static(__dirname + '/uploads'));
+
 // db connection
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true } , () => console.log(`DB connection established`))
 
