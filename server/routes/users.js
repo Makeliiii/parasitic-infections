@@ -25,7 +25,8 @@ router.post('/register', (req, res) => {
             // save user in db
             newUser.save()
                 .then(user => {
-                    res.status(200).json(user, { 
+                    res.status(200).json({
+                        user,
                         status: 'User created succesfully',
                         success: true
                     })
