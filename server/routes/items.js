@@ -190,4 +190,42 @@ router.get('/get/category/:category', (req, res) => {
     })
 })
 
+// @ROUTE GET /api/items/get/location/:country/:city?
+// @DESC get items based on item location
+router.get('/get/location/:country/:city?', (req, res) => {
+    // find items based only on country if city parameter doesn't exist
+    if (!req.params.city) {
+        Item.find({ 'location.country': req.params.country }).then(items => {
+            if (!items) {
+                return res.status(404).json({
+                    status: 'Items not found',
+                    success: false
+                })
+            }
+
+            return res.status(200).json({
+                items,
+                status: 'Items found',
+                success: true
+            })
+        })
+    }
+
+    // find items based on country and city
+    Item.find({ 'location.country': req.params.country, 'location.city': req.params.city }).then(items => {
+        if (!items) {
+            return res.status(404).json({
+                status: 'Items not found',
+                success: false
+            })
+        }
+
+        return res.status(200).json({
+            items,
+            status: 'Items found',
+            success: true
+        })
+    })
+})
+
 module.exports = router
