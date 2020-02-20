@@ -6,7 +6,9 @@ const port = 3000
 
 // import routes
 const users = require('./routes/users')
-const items = require('./routes/items')
+const add = require('./routes/items/add')
+const get = require('./routes/items/get')
+const editDelete = require('./routes/items/editDelete')
 
 // db uri
 require('dotenv').config()
@@ -21,7 +23,9 @@ app.use(cors())
 
 // routes
 app.use('/api/users', users)
-app.use('/api/items', items)
+app.use('/api/items', add)
+app.use('/api/items', get)
+app.use('/api/items', editDelete)
 
 // serve our images
 app.use(express.static(__dirname + '/uploads'));
