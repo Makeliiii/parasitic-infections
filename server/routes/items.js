@@ -168,4 +168,26 @@ router.get('/get', (req, res) => {
     })
 })
 
+// @ROUTE GET /api/items/get/category/:category
+// @DESC get items based on category
+router.get('/get/category/:category', (req, res) => {
+    // find items based on category
+    Item.find({ category: req.params.category }, (err, items) => {
+        if (err) {
+            console.log(err)
+            return res.status(404).json({
+                status: 'Items not found',
+                success: false
+            })
+        }
+
+        // return items
+        return res.status(200).json({
+            items,
+            status: 'Items found',
+            success: true
+        })
+    })
+})
+
 module.exports = router
