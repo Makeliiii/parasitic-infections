@@ -39,7 +39,13 @@ router.post('/add', passport.authenticate('jwt', { session: false }), (req, res)
             status: 'Item added',
             success: true
         }))
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err)
+            res.status(401).json({
+                status: 'Unauthorized',
+                success: false
+            })
+        })
 })
 
 // @ROUTE PUT /api/items/add-image/:id
@@ -60,7 +66,7 @@ router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt'
         // if no item is found
         if (!item) {
             return res.status(404).json({
-                status: 'No such item or you\'re not authenticated to edit the item',
+                status: 'No such item',
                 success: false
             })
         }
@@ -75,7 +81,13 @@ router.put('/add-image/:id', upload.array('img', 4), passport.authenticate('jwt'
                 status: 'Images added successfully',
                 success: true
             }))
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                res.status(401).json({
+                    status: 'Unauthorized',
+                    success: false
+                })
+            })
     })
 })
 
