@@ -2,6 +2,7 @@ const app = require('../index')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const fs = require('fs')
+const User = require('../models/Users')
 
 const { expect } = chai
 chai.use(chaiHttp)
@@ -13,8 +14,8 @@ before(done => {
     chai.request(app)
         .post('/api/users/login')
         .send({
-            username: 'widePeepoHappy',
-            password: 'mucus'
+            username: 'apina',
+            password: 'jeebus'
         })
         .end((err, res) => {
             token = res.body.token
