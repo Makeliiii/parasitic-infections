@@ -15,8 +15,8 @@ require('dotenv').config()
 const db = process.env.DB_CONNECTION
 
 // body parser
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json({ extended: true, limit: '50mb' }))
+app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 
 // cors
 app.use(cors())
@@ -34,6 +34,6 @@ app.use(express.static(__dirname + '/uploads'));
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false } , () => console.log(`DB connection established`))
 
 // start server
-const server = app.listen(port, () => console.log(`App listening on port ${port}`))
+app.listen(port, () => console.log(`App listening on port ${port}`))
 
-module.exports = server
+module.exports = app

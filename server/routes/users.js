@@ -35,7 +35,13 @@ router.post('/register', (req, res) => {
                     success: true
                 })
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                res.status(400).json({
+                    status: 'Something went wrong',
+                    success: false
+                })
+            })
     })
 })
 
@@ -63,11 +69,12 @@ router.post('/login', (req, res) => {
                 }
 
                 // token creation
-                jwt.sign(payload, privateKey, { expiresIn: 120 /* DO NOT FORGET TO CHANGE */ }, (err, token) => {
+                jwt.sign(payload, privateKey, { expiresIn: 1000 /* DO NOT FORGET TO CHANGE */ }, (err, token) => {
                     if (err) throw err
                     
                     res.status(200).json({
                         success: true,
+                        status: 'Token created',
                         token: token
                     })
                 })
