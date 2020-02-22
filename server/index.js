@@ -34,4 +34,6 @@ app.use(express.static(__dirname + '/uploads'));
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false } , () => console.log(`DB connection established`))
 
 // start server
-app.listen(port, () => console.log(`App listening on port ${port}`))
+const server = app.listen(port, () => console.log(`App listening on port ${port}`))
+
+module.exports = server
