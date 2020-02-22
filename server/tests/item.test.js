@@ -7,6 +7,7 @@ const { expect } = chai
 chai.use(chaiHttp)
 
 let token
+let id
 
 before(done => {
     chai.request(app)
@@ -17,6 +18,27 @@ before(done => {
         })
         .end((err, res) => {
             token = res.body.token
+            done()
+        })
+})
+
+before(done => {
+    chai.request(app)
+        .post('/api/items/add')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+            "title": "jajajaja",
+            "description": "olio jutussa",
+            "category": "things",
+            "location": {
+                "country": "Finland",
+                "city": "Jurva"
+            },
+            "price": 666.666,
+            "deliveryType": "delivery"
+        })
+        .end((err, res) => {
+            id = res.body.item._id
             done()
         })
 })
@@ -98,12 +120,44 @@ describe('POST/PUT', () => {
 
     it('puts images to items', done => {
         chai.request(app)
-            .post('/api/add-image/5e4e4ae6d5e05a14fcc2432d')
-            .field('Content-Type', 'multipart/form-data')
+            .put(`/api/items/add-image/${id}`)
+            .set('Authorization', `Bearer ${token}`)
+            .attach('img', fs.readFileSync('./uploads/2019-postimerkki.jpg'), '2019-postimerkki.jpg')
+            .end((err, res) => {
+                expect(res).to.have.status(200)
+                expect(res.body.success).to.equals(true)
+                done()
+            })
+    })
+
+    it('edits an item', done =>  {
+        chai.request(app)
+            .put(`/api/items/edit/${id}`)
             .set('Authorization', `Bearer ${token}`)
             .send({
-                img: fs.readFileSync('./uploads/2019-postimerkki.jpg'),
+                "title": "hahaha",
+                "description": "outo juttu jutussa",
+                "category": "jutut",
+                "location": {
+                    "country": "Finland",
+                    "city": "Helsinki"
+                },
+                "price": 666.666,
+                "deliveryType": "pickup"
             })
+            .end((err, res) => {
+                expect(res).to.have.status(200)
+                expect(res.body.success).to.equals(true)
+                done()
+            })
+    })
+})
+
+describe('DELETE', () => { 
+    it('deletes an item', done => {
+        chai.request(app)
+            .delete(`/api/items/delete/${id}`)
+            .set('Authorization', `Bearer ${token}`)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.success).to.equals(true)
