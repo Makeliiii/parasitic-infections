@@ -3,6 +3,11 @@ const Schema = mongoose.Schema
 const bcrypt = require('bcrypt')
 const saltyRoundy = 10
 
+const now = new Date().toISOString().slice(0, 10)
+const phoneRegEx = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+// somewhat bad of a regex cause it filters a lot of top level domains but you can just add them here as you encouter problems
+const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|fi|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/
+
 // user schema
 const UserSchema = new Schema({
     username: {
@@ -16,9 +21,35 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    phoneNumber: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (v) => {
+                return phoneRegEx.test(v)
+            }
+        }
+    },
+    email: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (v) => {
+                return emailRegEx.test(v)
+            }
+        }
+    },
     date: {
         type: Date,
-        default: Date.now()
+        default: now
     }
 })
 

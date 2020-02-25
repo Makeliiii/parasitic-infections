@@ -23,7 +23,11 @@ router.post('/register', (req, res) => {
         // new user object
         const newUser = new User({
             username: req.body.username,
-            password: req.body.password
+            password: req.body.password,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phoneNumber: req.body.phoneNumber,
+            email: req.body.email
         })
 
         // save user in db and handle errors
@@ -31,14 +35,14 @@ router.post('/register', (req, res) => {
             .then(user => {
                 res.status(200).json({
                     user,
-                    status: 'User created succesfully',
+                    status: 'User created successfully',
                     success: true
                 })
             })
             .catch(err => {
                 console.log(err)
                 res.status(400).json({
-                    status: 'Something went wrong',
+                    status: 'Errors in form',
                     success: false
                 })
             })
@@ -69,7 +73,7 @@ router.post('/login', (req, res) => {
                 }
 
                 // token creation
-                jwt.sign(payload, privateKey, { expiresIn: 1000 /* DO NOT FORGET TO CHANGE */ }, (err, token) => {
+                jwt.sign(payload, privateKey, { expiresIn: 1000 }, (err, token) => {
                     if (err) throw err
                     
                     res.status(200).json({

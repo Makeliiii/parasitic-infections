@@ -11,7 +11,11 @@ describe('ADD', () => {
             .post('/api/users/register')
             .send({
                 username: 'widePeepoHappy',
-                password: 'mucus'
+                password: 'mucus',
+                firstName: 'slime',
+                lastName: 'king',
+                phoneNumber: '0406666666',
+                email: 'slime.king@mucus.com'
             })
             .end((err, res) => {
                 expect(res).to.have.status(200)
