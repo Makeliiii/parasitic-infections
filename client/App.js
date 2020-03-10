@@ -1,19 +1,19 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { NavigationContainer, StackActions } from '@react-navigation/native'
+import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import Home from './components/Views/Home'
-import Register from './components/Views/Home'
-import Login from './components/Views/Home'
+import Main from './components/Views/Main'
+import Register from './components/Views/Auth/Register'
+import Login from './components/Views/Auth/Login'
 
 const Tab = createBottomTabNavigator()
 
 function App() {
     return (
         <NavigationContainer>
-            <Tab.Navigator>
-                <Tab.Screen name="Home" component={Home} />
+            <Tab.Navigator style={{ position: 'absolute' }}>
+                <Tab.Screen name="Home" component={Main} />
                 <Tab.Screen name="Register" component={Register} />
                 <Tab.Screen name="Login" component={Login} />
             </Tab.Navigator>
