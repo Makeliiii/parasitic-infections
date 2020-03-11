@@ -12,10 +12,34 @@ const Tab = createBottomTabNavigator()
 function App() {
     return (
         <NavigationContainer>
-            <Tab.Navigator style={{ position: 'absolute' }}>
-                <Tab.Screen name="Home" component={Main} />
-                <Tab.Screen name="Register" component={Register} />
-                <Tab.Screen name="Login" component={Login} />
+            <Tab.Navigator>
+                <Tab.Screen 
+                    name="Main"
+                >
+                    {props => (
+                        <Main
+                            {...props}
+                        />
+                    )}
+                </ Tab.Screen>
+                <Tab.Screen
+                    name="Register"
+                >
+                    {props => (
+                        <Register
+                            {...props}
+                        />
+                    )}
+                </Tab.Screen>
+                <Tab.Screen
+                    name="Login"
+                >
+                    {props => (
+                        <Login
+                            {...props}
+                        />
+                    )}
+                </Tab.Screen>
             </Tab.Navigator>
         </NavigationContainer>
     )
