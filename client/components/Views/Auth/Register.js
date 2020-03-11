@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, StyleSheet } from 'react-native'
+import { Text, View, TextInput, Button, StyleSheet, Alert } from 'react-native'
+
+import Input from './components/Input'
 
 class Register extends Component {
     constructor(props) {
@@ -14,8 +16,46 @@ class Register extends Component {
         }
     }
 
-    onChangeText = (e) => {
-        this.setState({ value: e.target.value })
+    onRegister = () => {
+        const {
+            username,
+            password,
+            firstName,
+            lastName,
+            phoneNumber,
+            email
+        } = this.state
+
+        const newUser = {
+            username,
+            password,
+            firstName,
+            lastName,
+            phoneNumber,
+            email
+        }
+
+        fetch('http://54.174.235.204/api/users/register', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+        })
+        .then(res => {
+            return res.json()
+        })
+        .then(data => {
+            console.log(data)
+            if (data.success) {
+                this.props.navigation.navigate('Login')
+            } else {
+                console.log(data.status)
+                Alert.alert(data.status)
+            }
+        })
+        .catch(err => console.log(err))
     }
 
     render() {
@@ -36,7 +76,7 @@ class Register extends Component {
                 />
                 <TextInput
                     style={styles.input}
-                    value={ this.state.username }
+                    value={ this.state.lastName }
                     onChangeText={ lastName => this.setState({ lastName })}
                     placeholder='Last Name'
                 />
@@ -59,6 +99,11 @@ class Register extends Component {
                     secureTextEntry={ true }
                     onChangeText={ password => this.setState({ password })}
                     placeholder='Password'
+                />
+                <Button
+                    title="Register"
+                    style={styles.button}
+                    onPress={ this.onRegister }
                 />
             </View>
         )
@@ -85,6 +130,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
         marginTop: 15,
+    },
+    button: {
+        marginTop: 15,
+        width: '90%',
     }
 })
 
