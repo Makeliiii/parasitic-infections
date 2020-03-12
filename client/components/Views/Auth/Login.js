@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, Button, StyleSheet } from 'react-native'
+import { Text, View, TextInput, Button, Alert, StyleSheet } from 'react-native'
 
 class Login extends Component {
     constructor(props) {
@@ -10,10 +10,41 @@ class Login extends Component {
         }
     }
 
+    onLogin = () => {
+        const {
+            username,
+            password
+        } = this.state
+
+        const loginData = {
+            username,
+            password
+        }
+
+        fetch('http://54.174.235.204/api/users/login', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if (data.success) {
+                console.log('jee')
+            } else {
+                console.log(data.status)
+                Alert.alert(data.status)
+            }
+        })
+    }
+
     render() {
         return (
             <View style={styles.screen}>
-                <Text style={styles.text}>Register</Text>
+                <Text style={styles.text}>Login</Text>
                 <TextInput
                     style={styles.input}
                     value={ this.state.username }
