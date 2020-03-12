@@ -33,7 +33,7 @@ class Login extends Component {
         .then(data => {
             console.log(data)
             if (data.success) {
-                console.log('jee')
+                this.props.getLoginJWT(data.token)
             } else {
                 console.log(data.status)
                 Alert.alert(data.status)
