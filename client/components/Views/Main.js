@@ -16,7 +16,6 @@ class Main extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({ items: data.items })
-                console.log(this.state.items)
             })
     }
 

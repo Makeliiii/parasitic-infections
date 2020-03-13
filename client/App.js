@@ -11,7 +11,7 @@ import Loading from './components/Loading'
 import Main from './components/Views/Main'
 import CreatePost from './components/Views/Post/CreatePost'
 
-const tokenName = 'JWT'
+const tokenName = 'token'
 const Tab = createBottomTabNavigator()
 
 class App extends Component {
@@ -84,11 +84,12 @@ class App extends Component {
                     )}
                 </ Tab.Screen>
                 <Tab.Screen 
-                    name="CreatePost"
+                    name="Create Post"
                 >
                     {props => (
                         <CreatePost
                             {...props}
+                            token={this.state.token}
                         />
                     )}
                 </ Tab.Screen>
