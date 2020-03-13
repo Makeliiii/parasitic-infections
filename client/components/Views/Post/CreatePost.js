@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TextInput, Button, Text, Alert } from 'react-native'
-import * as SecureStore from 'expo-secure-store'
+import { View, StyleSheet, TextInput, Button, Text, Picker, Alert } from 'react-native'
 
 class CreatePost extends Component {
     constructor(props) {
@@ -12,6 +11,7 @@ class CreatePost extends Component {
             country: '',
             city: '',
             price: '',
+            delivery: '',
             token: this.props.token
         }
     }
@@ -23,7 +23,8 @@ class CreatePost extends Component {
             category,
             country,
             city,
-            price
+            price,
+            delivery
         } = this.state
 
         const newItem = {
@@ -32,7 +33,8 @@ class CreatePost extends Component {
             category,
             country,
             city,
-            price
+            price,
+            delivery
         }
 
         console.log(this.state.token)
@@ -40,11 +42,12 @@ class CreatePost extends Component {
         fetch('http://54.174.235.204/api/items/add', {
             method: 'post',
             mode: 'cors',
-            headers: new Headers({
-                Authorization: 'Bearer ' + this.state.token,
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }),
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Authorization': `Bearer ${this.state.token}`,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(newItem)
         })
         .then(res => res.json())
@@ -99,6 +102,15 @@ class CreatePost extends Component {
                     onChangeText={ price => this.setState({ price })}
                     placeholder='Price'
                 />
+                <Text>Delivery type</Text>
+                <Picker
+                    style={{ alignSelf: 'center', width: '50%' }}
+                    selectedValue={this.state.value}
+                    onValueChange={itemValue => this.setState({ value: itemValue })}
+                >
+                    <Picker.Item label='Pickup' value='pickup' />
+                    <Picker.Item label='Delivery' value='delivery' />
+                </Picker>
                 <Button
                     title="Post item"
                     onPress={ this.onPost }
