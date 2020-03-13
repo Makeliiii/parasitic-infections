@@ -100,7 +100,6 @@ class Register extends Component {
                 />
                 <Button
                     title="Register"
-                    style={styles.button}
                     onPress={ this.onRegister }
                 />
             </View>
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
         marginTop: '25%'
     },
     text: {
-        marginBottom: 10,
+        marginBottom: 25,
         fontSize: 26,
 
     },
@@ -127,11 +126,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         textAlign: 'center',
         fontSize: 16,
-        marginTop: 15,
-    },
-    button: {
-        marginTop: 15,
-        width: '90%',
+        marginBottom: 15,
     }
 })
 
