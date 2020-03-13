@@ -4,10 +4,12 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as SecureStore from 'expo-secure-store'
 
-import Main from './components/Views/Main'
 import Register from './components/Views/Auth/Register'
 import Login from './components/Views/Auth/Login'
 import Loading from './components/Loading'
+
+import Main from './components/Views/Main'
+import CreatePost from './components/Views/Post/CreatePost'
 
 const tokenName = 'JWT'
 const Tab = createBottomTabNavigator()
@@ -78,6 +80,15 @@ class App extends Component {
                         <Main
                             {...props}
                             logout={ this.logout }
+                        />
+                    )}
+                </ Tab.Screen>
+                <Tab.Screen 
+                    name="CreatePost"
+                >
+                    {props => (
+                        <CreatePost
+                            {...props}
                         />
                     )}
                 </ Tab.Screen>
