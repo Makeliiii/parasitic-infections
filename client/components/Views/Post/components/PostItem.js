@@ -1,21 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native'
 
 class PostItem extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-
-        }
-    }
-
     render() {
         return (
-            <View>
+            <TouchableOpacity onPress={this.props.displayItem} style={styles.screen}>
                 <Image
                     source={{ uri: this.props.imgURI }}
                 />
-                <Text>
+                <Text style={styles.title}>
                     { this.props.title }
                 </Text>
                 <Text>
@@ -25,17 +18,29 @@ class PostItem extends Component {
                     { this.props.country }
                 </Text>
                 <Text>
-                    { this.props.country }
-                </Text>
-                <Text>
                     { this.props.city }
                 </Text>
                 <Text>
-                    { this.props.price }
+                    { this.props.price + '€' }
                 </Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        width: '25%',
+        margin: 5,
+        borderRadius: 1,
+        borderWidth: 0.5,
+        borderColor: 'black'
+    },
+    title: {
+        marginBottom: 2,
+        fontSize: 18,
+        fontWeight: 'bold',
+    }
+})
 
 export default PostItem
