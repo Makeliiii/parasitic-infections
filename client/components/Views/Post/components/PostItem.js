@@ -22,7 +22,13 @@ class PostItem extends Component {
                     { this.props.description }
                 </Text>
                 <Text>
-                    { this.props.location }
+                    { this.props.country }
+                </Text>
+                <Text>
+                    { this.props.country }
+                </Text>
+                <Text>
+                    { this.props.city }
                 </Text>
                 <Text>
                     { this.props.price }

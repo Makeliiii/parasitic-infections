@@ -7,23 +7,32 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            items: []
+            items: this.props.items
         }
     }
 
-    componentDidMount() {
-        fetch('http://54.174.235.204/api/items/get')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                this.setState({ items: data })
-            })
+    posts = () => {
+        const { items } = this.props
+
+        return items.map((item, index) => {
+            return (
+                <PostItem
+                    key={index}
+                    imgURI={ `https://agony.s-ul.eu/6RLsganS` }
+                    title={ item.title }
+                    description={ item.description }
+                    country={ item.location.country }
+                    city={ item.location.city }
+                    price={ item.price.$numberDecimal }
+                />
+            )
+        })
     }
 
     render() {
         return (
-            <View>
-                
+            <View style={{ justifyContent: "center", alignItems: "center" }} >
+                { this.posts() }
             </View>
         )
     }
