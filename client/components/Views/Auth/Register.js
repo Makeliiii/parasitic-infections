@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     text: {
         marginBottom: 25,
         fontSize: 26,
-
     },
     input: {
         borderWidth: 1,

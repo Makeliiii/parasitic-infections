@@ -12,26 +12,30 @@ class Main extends Component {
     }
 
     componentDidMount() {
+        this.getItemsAllItems()
+    }
+
+    getItemsAllItems = () => {
         fetch('http://54.174.235.204/api/items/get')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ items: data.items })
-            })
+        .then(res => res.json())
+        .then(data => {
+            this.setState({ items: data.items })
+        })
     }
 
     render() {
         return (
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <ScrollView style={{ width: '100%' }}>
-                <Image 
-                    style={{ width: 128, height: 128, marginBottom: '10%', marginTop: '25%', alignSelf: 'center' }}
-                    source={{ uri: 'https://agony.s-ul.eu/6RLsganS' }}
-                />
                 <Post items={ this.state.items } />
-                <Button
-                    title='Logout'
-                    onPress={ this.props.logout }
-                />
+                {
+                    this.props.token === null ? 
+                    <></> : 
+                    <Button
+                        title='Logout'
+                        onPress={ this.props.logout }
+                    /> 
+                }
                 </ScrollView>
             </View>
         )
