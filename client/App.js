@@ -66,6 +66,16 @@ class App extends Component {
                         />
                     )}
                 </Tab.Screen>
+                <Tab.Screen
+                    name="Posts"
+                >
+                    {props => (
+                        <Main
+                            {...props}
+                            token={this.state.token}
+                        />
+                    )}
+                </Tab.Screen>
             </>
         )
     }
@@ -74,7 +84,7 @@ class App extends Component {
         return (
             <>
                 <Tab.Screen 
-                    name="Main"
+                    name="Posts"
                 >
                     {props => (
                         <Main
