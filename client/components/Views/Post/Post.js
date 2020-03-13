@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Picker } from 'react-native'
 
 import PostItem from './components/PostItem'
 
@@ -7,7 +7,8 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            items: this.props.items
+            items: this.props.items,
+            value: ''
         }
     }
 
@@ -31,11 +32,44 @@ class Post extends Component {
 
     render() {
         return (
-            <View style={{ justifyContent: "center", alignItems: "center" }} >
-                { this.posts() }
+            <View style={styles.screen} >
+                <Text style={styles.text}>Posts</Text>
+                <Text>Get items by</Text>
+                <Picker
+                    style={{ alignSelf: 'center', width: '50%' }}
+                    selectedValue={this.state.value}
+                    onValueChange={itemValue => this.setState({ value: itemValue })}
+                >
+                    <Picker.Item label='All' value='all' />
+                    <Picker.Item label='Category' value='category' />
+                    <Picker.Item label='Location' value='location' />
+                </Picker>
+
+                    <View style={styles.posts}>
+                        { this.posts() }
+                    </View>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50
+    },
+    text: {
+        marginBottom: 25,
+        fontSize: 26,
+    },
+    posts: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
 
 export default Post
